@@ -1,0 +1,39 @@
+<h1>Listing Insurance applications</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.insurance_application_index_path(@socket, :index)}>
+    <.live_component
+      module={DynamicFormWeb.InsuranceApplicationLive.FormComponent}
+      id={@insurance_application.id || :new}
+      title={@page_title}
+      action={@live_action}
+      insurance_application={@insurance_application}
+      return_to={Routes.insurance_application_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="insurance_applications">
+    <%= for insurance_application <- @insurance_applications do %>
+      <tr id={"insurance_application-#{insurance_application.id}"}>
+        <td><%= insurance_application.name %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.insurance_application_show_path(@socket, :show, insurance_application) %></span>
+          <span><%= live_patch "Edit", to: Routes.insurance_application_index_path(@socket, :edit, insurance_application) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: insurance_application.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Insurance application", to: Routes.insurance_application_index_path(@socket, :new) %></span>

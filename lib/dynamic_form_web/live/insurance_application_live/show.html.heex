@@ -1,0 +1,26 @@
+<h1>Show Insurance application</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.insurance_application_show_path(@socket, :show, @insurance_application)}>
+    <.live_component
+      module={DynamicFormWeb.InsuranceApplicationLive.FormComponent}
+      id={@insurance_application.id}
+      title={@page_title}
+      action={@live_action}
+      insurance_application={@insurance_application}
+      return_to={Routes.insurance_application_show_path(@socket, :show, @insurance_application)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @insurance_application.name %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.insurance_application_show_path(@socket, :edit, @insurance_application), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.insurance_application_index_path(@socket, :index) %></span>
